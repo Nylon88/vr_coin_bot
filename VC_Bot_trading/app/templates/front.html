@@ -1,0 +1,46 @@
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+    var profitTimer;
+
+    const profit = function() {
+        $.get("/profit").done(function (data) {
+            $("#profit").text(data)
+        });
+    };
+
+    $(function () {
+        $('#start').click(function () {
+            // バックエンドのstartを動かす
+            $.get("/start").done(function (data) {
+                $("#status").text(data)
+            });
+            profitTimer = setInterval(profit, 1000 * 60)
+        });
+
+        $('#stop').click(function () {
+            // バックエンドのstartを動かす
+            $.get("/stop").done(function (data) {
+                $("#status").text(data)
+                //$(this).next().text('ボタンがクリックされました')
+            });
+            function stopTimer() {
+                clearInterval(profitTimer)
+            }
+        });
+    });
+
+</script>
+
+<body>
+<h1>VR coin</h1>
+
+<form method="get">
+    <button type="button" id="start">START</button>
+    <button type="button" id="stop">STOP</button>
+</form>
+<p><span>status：</span><span id="status"></span></p>
+<p><span>現在のprofit:</span><span id="profit"></span></p>
+
+</body>
+</html>
