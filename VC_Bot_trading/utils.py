@@ -8,9 +8,6 @@ logger = logging.getLogger(__name__)
 
 
 class GetTools:
-    def __init__(self):
-        self.stop_ = False
-
     # 現在の時間をmsで取得し、スタートの時間を設定する
     def get_ms_now(self, limit=500):
         now = datetime.utcnow()
@@ -22,14 +19,14 @@ class GetTools:
     # functionに引数がないものだけ使用可能
     def interval_exe(self, function, interval):
         try:
-            while not self.stop_:
+            while (1):
                 past = time.perf_counter()
-                plus_time = function()
-                interval_time = plus_time + interval - (time.perf_counter() - past)
+                function()
+                interval_time = interval - (time.perf_counter() - past)
                 time.sleep(interval_time)
                 logger.info(f'action= interval() {function}:１ループ終了')
         except Exception as e:
-            logger.error(f'action= interval_exe error={e}')
+            logger.error(f'action= {function} error={e}')
 
     def pick_up_times_closes(self, ohlcvs) -> list:
         candle_info = []
