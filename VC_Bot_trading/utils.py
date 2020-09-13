@@ -8,6 +8,9 @@ logger = logging.getLogger(__name__)
 
 
 class GetTools:
+    def __init__(self):
+        self.stop_ = False
+
     # 現在の時間をmsで取得し、スタートの時間を設定する
     def get_ms_now(self, limit=500):
         now = datetime.utcnow()
@@ -19,7 +22,7 @@ class GetTools:
     # functionに引数がないものだけ使用可能
     def interval_exe(self, function, interval):
         try:
-            while (1):
+            while self.stop_ == False:
                 past = time.perf_counter()
                 function()
                 interval_time = interval - (time.perf_counter() - past)
